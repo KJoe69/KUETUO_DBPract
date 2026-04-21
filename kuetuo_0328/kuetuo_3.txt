@@ -1,0 +1,96 @@
+/*
+    MYSQL
+*/
+
+DROP DATABASE IF EXISTS kuetuo;
+
+CREATE DATABASE kuetuo;
+
+USE kuetuo;
+
+CREATE TABLE tulajdonos (
+    ekod char(3) primary key,
+    nev varchar(50)  NOT NULL,
+    varos varchar(50) ,
+    telefon varchar(20) 
+) ENGINE=InnoDB;
+
+
+CREATE TABLE auto (
+    rendszam char(7) PRIMARY KEY,
+    tipus VARCHAR(50) NOT NULL,
+    szin VARCHAR(30),
+    kor int(3),
+    ar int(11),
+    tulaj char(3),
+    FOREIGN KEY(tulaj) REFERENCES tulajdonos(ekod)
+) ENGINE=InnoDB;
+
+RENAME TABLE auto TO jarmu;
+
+RENAME TABLE jarmu TO auto;
+
+ALTER TABLE tulajdonos RENAME COLUMN nev TO name;
+
+ALTER TABLE tulajdonos RENAME COLUMN name TO nev;
+
+ALTER TABLE auto ADD COLUMN koros INT(2) CHECK (koros > 0) FIRST;
+
+ALTER TABLE auto DROP COLUMN koros;
+
+ALTER TABLE auto ADD COLUMN koros INT(2) CHECK (koros > 0);
+
+ALTER TABLE tulajdonos MODIFY telefon VARCHAR(50);
+
+ALTER TABLE tulajdonos MODIFY telefon VARCHAR(20);
+
+ALTER TABLE tulajdonos ADD CONSTRAINT unique_tel UNIQUE (telefon);
+
+ALTER TABLE tulajdonos DROP INDEX unique_tel;
+
+
+
+
+/*
+    ORACLE APEX
+*/
+
+CREATE TABLE tulajdonos (
+    ekod char(3) primary key,
+    nev varchar(50)  NOT NULL,
+    varos varchar(50) ,
+    telefon varchar(20) 
+);
+
+CREATE TABLE auto (
+    rendszam char(7) PRIMARY KEY,
+    tipus VARCHAR(50) NOT NULL,
+    szin VARCHAR(30),
+    kor int,
+    ar int,
+    tulaj char(3),
+    FOREIGN KEY(tulaj) REFERENCES tulajdonos(ekod)
+);
+
+ALTER TABLE auto RENAME TO jarmu;
+
+ALTER TABLE jarmu RENAME TO auto;
+
+ALTER TABLE tulajdonos RENAME COLUMN nev TO name;
+
+ALTER TABLE tulajdonos RENAME COLUMN name TO nev;
+
+ALTER TABLE auto ADD koros NUMBER(2) CHECK (koros > 0);
+
+ALTER TABLE auto DROP COLUMN koros;
+
+ALTER TABLE auto ADD koros NUMBER(2) CHECK (koros > 0);
+
+ALTER TABLE tulajdonos MODIFY telefon VARCHAR2(50);
+
+ALTER TABLE tulajdonos MODIFY telefon VARCHAR2(20);
+
+ALTER TABLE tulajdonos ADD CONSTRAINT unique_tel UNIQUE (telefon);
+
+ALTER TABLE tulajdonos DROP CONSTRAINT unique_tel;
+
